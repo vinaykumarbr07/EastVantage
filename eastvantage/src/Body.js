@@ -3,7 +3,6 @@ import axios from "axios";
 import CustomButton from "./CustomButton";
 import User from "./User";
 const Body = () => {
-    const [userInfo, setUserInfo] = useState({});
     const [isLoadingInfo, setLoadingInfo] = useState(true);
     const randomUserAPI = axios.create({ baseURL: "https://randomuser.me/api" });
 
@@ -14,11 +13,10 @@ const Body = () => {
     const fetchUserInfo = async () => {
         try {
             const response = await randomUserAPI.get();
-            setUserInfo(response.data.results[0]);
-            
+            localStorage.setItem('userInfo', JSON.stringify(response.data.results[0]));
         } catch (e) {
-            setUserInfo(e);
-        }finally {
+            localStorage.setItem('userInfo', JSON.stringify(e));
+        } finally {
             setLoadingInfo(false);
         }
     }
@@ -26,7 +24,7 @@ const Body = () => {
     return (
         <>
             <CustomButton fetchUserInfo={fetchUserInfo} setLoadingInfo={setLoadingInfo} />
-            {isLoadingInfo ? <div className="loading-class">loading...</div> : <User userInfo={userInfo} />}
+            {isLoadingInfo ? <div className="loading-class">loading...</div> : <User />}
         </>
     )
 }

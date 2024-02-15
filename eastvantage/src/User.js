@@ -1,5 +1,7 @@
-const User = ({ userInfo }) => {
+const User = () => {
 
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    
     if (userInfo.message) {
         return <div className="user-info"> Error occured while fetching user info </div>
     }
